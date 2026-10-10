@@ -2,19 +2,18 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-// Category data mapping based on your UI design screenshots
 const categories = [
   { name: "চাল", slug: "chal", icon: "🍚" },
   { name: "ডাল", slug: "dal", icon: "🧆" },
-  { name: "তেল", slug: "oil", icon: "🛢️" },
-  { name: "সবজি", slug: "vegetables", icon: "🥬" },
-  { name: "মাছ", slug: "fish", icon: "🐟" },
-  { name: "মাংস", slug: "meat", icon: "🍗" },
-  { name: "ডিম-দুধ", slug: "egg-milk", icon: "🥛" },
-  { name: "মসলা", slug: "spices", icon: "🌶️" },
+  { name: "তেল", slug: "tel", icon: "🛢️" },
+  { name: "সবজি", slug: "sobji", icon: "🥬" },
+  { name: "মাছ", slug: "mach", icon: "🐟" },
+  { name: "মাংস", slug: "mangsho", icon: "🍗" },
+  { name: "ডিম-দুধ", slug: "dim", icon: "🥛" },
+  { name: "মসলা", slug: "mosla", icon: "🌶️" },
 ];
 
-export default function CategoryNavigation() {
+const CategoryNavigation = () => {
   const pathname = usePathname();
 
   return (
@@ -40,4 +39,7 @@ export default function CategoryNavigation() {
       </div>
     </nav>
   );
-}
+};
+
+// 🚀 এই লাইনটি মিসিং থাকার কারণেই Error টি আসছিল
+export default CategoryNavigation;

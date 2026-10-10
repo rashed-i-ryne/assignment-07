@@ -7,7 +7,8 @@ export default function ProductGrid({ products, layout = "responsive" }: { produ
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+    // ছবিতে দেখানো হুবহু ৩-কলামের গ্রিড (lg:grid-cols-3)
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
       {products.map((product) => (
         <ProductCard key={product.id || product.slug || product.name} product={product} />
       ))}

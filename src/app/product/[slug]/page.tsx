@@ -5,12 +5,14 @@ import { auth } from "@/lib/auth";
 import MarketPriceTable from "@/components/products/MarketPriceTable";
 import { toBengaliNum } from "@/utils/bengali";
 
+// 🚀 ADDED THIS LINE:
+export const instant = false;
+
 type Props = {
   params: Promise<{ slug: string }>;
 };
 
 export default async function ProductPage({ params }: Props) {
-  // Unwrap the promise
   const resolvedParams = await params;
   const slug = resolvedParams.slug;
 
@@ -31,8 +33,8 @@ export default async function ProductPage({ params }: Props) {
     );
   }
 
-  const isUp = product.priceChange && product.priceChange > 0;
-  const isDown = product.priceChange && product.priceChange < 0;
+  const isUp = typeof product.priceChange === 'number' && product.priceChange > 0;
+  const isDown = typeof product.priceChange === 'number' && product.priceChange < 0;
 
   return (
     <main className="container mx-auto px-4 py-8 max-w-5xl">
@@ -51,6 +53,7 @@ export default async function ProductPage({ params }: Props) {
           <p className="text-4xl font-black text-gray-900 flex justify-center items-end gap-1">
             {toBengaliNum(product.currentPrice)}
           </p>
+          <p className="text-sm text-gray-500 mt-1 font-medium">টাকা / {product.unit.replace('প্রতি ', '')}</p>
         </div>
       </div>
       <MarketPriceTable marketPrices={product.marketPrices || []} />
