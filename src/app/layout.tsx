@@ -6,6 +6,7 @@ import SiteHeader from "@/components/layout/SiteHeader";
 import CategoryNavigation from "@/components/layout/CategoryNavigation";
 import PriceTicker from "@/components/layout/PriceTicker";
 import SiteFooter from "@/components/layout/SiteFooter";
+import { Suspense } from "react"; // 1. Add this import
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,7 +20,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="bn" className="scroll-smooth">
       <body className={`${inter.className} bg-gray-50 flex flex-col min-h-screen text-gray-900`}>
         <SiteHeader />
-        <CategoryNavigation />
+        
+        {/* 2. Wrap the navigation in Suspense */}
+        <Suspense fallback={<div className="h-12 bg-white border-b border-gray-100"></div>}>
+          <CategoryNavigation />
+        </Suspense>
+        
         <PriceTicker />
         
         <div className="flex-grow">

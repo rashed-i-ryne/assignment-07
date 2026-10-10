@@ -6,16 +6,21 @@ export default function ProductCard({ product }: { product: Product }) {
   const isUp = product.priceChange && product.priceChange > 0;
   const isDown = product.priceChange && product.priceChange < 0;
 
+  // Notice the href is now using product.id to match the API endpoint correctly
   return (
-    <Link href={`/product/${product.slug}`} className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm hover:shadow-md transition-all flex items-center justify-between group">
+    <Link href={`/product/${product.id}`} className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm hover:shadow-md transition-all flex items-center justify-between group">
       <div className="flex items-center gap-4">
-        <div className="text-4xl bg-gray-50 p-3 rounded-full group-hover:scale-105 transition-transform">{product.emoji || "📦"}</div>
+        <div className="text-4xl bg-gray-50 p-3 rounded-full group-hover:scale-105 transition-transform border border-gray-100">
+          {product.emoji || "📦"}
+        </div>
         <div>
           <h3 className="font-bold text-gray-900 text-lg">{product.name}</h3>
-          <p className="text-xs text-gray-500 font-medium">{product.unit}</p>
+          <p className="text-xs text-gray-500 font-medium">{product.unit || "কেজি"}</p>
           <div className="mt-2">
              <span className="text-[10px] uppercase tracking-wider text-gray-400 block mb-0.5">আজকের দাম</span>
-             <span className="font-bold text-xl text-gray-900">{toBengaliNum(product.currentPrice)} <span className="text-sm font-medium text-gray-500">টাকা</span></span>
+             <span className="font-bold text-xl text-gray-900">
+               {toBengaliNum(product.currentPrice || 0)} <span className="text-sm font-medium text-gray-500">টাকা</span>
+             </span>
           </div>
         </div>
       </div>

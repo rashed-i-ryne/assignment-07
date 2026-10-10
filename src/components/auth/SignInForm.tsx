@@ -4,9 +4,9 @@ import { signIn } from "@/lib/auth-client";
 import { useRouter, useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
 import Link from "next/link";
-import { Github } from "lucide-react";
+import Image from "next/image";
 
-export default function SignInForm() {
+const SignInForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -57,10 +57,10 @@ export default function SignInForm() {
 
       <div className="mt-6 flex flex-col sm:flex-row gap-3">
         <button onClick={() => handleSocialSignIn("google")} type="button" className="flex-1 flex items-center justify-center gap-2 border border-gray-200 p-2.5 rounded-lg hover:bg-gray-50 text-sm font-semibold text-gray-700 transition-colors">
-          <img src="https://authjs.dev/img/providers/google.svg" alt="Google" className="w-5 h-5" /> Google
+          <Image src="https://authjs.dev/img/providers/google.svg" alt="Google" width={20} height={20} className="w-5 h-5" /> Google
         </button>
         <button onClick={() => handleSocialSignIn("github")} type="button" className="flex-1 flex items-center justify-center gap-2 border border-gray-200 p-2.5 rounded-lg hover:bg-gray-50 text-sm font-semibold text-gray-700 transition-colors">
-          <Github size={20} /> GitHub
+          <Image src="https://authjs.dev/img/providers/github.svg" alt="GitHub" width={20} height={20} className="w-5 h-5" /> GitHub
         </button>
       </div>
 
@@ -69,4 +69,6 @@ export default function SignInForm() {
       </p>
     </>
   );
-}
+};
+
+export default SignInForm;
