@@ -6,7 +6,7 @@ import SiteHeader from "@/components/layout/SiteHeader";
 import CategoryNavigation from "@/components/layout/CategoryNavigation";
 import PriceTicker from "@/components/layout/PriceTicker";
 import SiteFooter from "@/components/layout/SiteFooter";
-import { Suspense } from "react"; // 1. Add this import
+import { Suspense } from "react"; 
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,12 +21,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={`${inter.className} bg-gray-50 flex flex-col min-h-screen text-gray-900`}>
         <SiteHeader />
         
-        {/* 2. Wrap the navigation in Suspense */}
+        {/* If CategoryNavigation also fetches data, keep it wrapped. Otherwise, it's optional here. */}
         <Suspense fallback={<div className="h-12 bg-white border-b border-gray-100"></div>}>
           <CategoryNavigation />
         </Suspense>
         
-        <PriceTicker />
+        {/* Wrap PriceTicker in Suspense to fix the Next.js blocking prerender error */}
+        <Suspense fallback={<div className="h-8 bg-gray-200 animate-pulse flex items-center justify-center text-sm">Loading ticker...</div>}>
+          <PriceTicker />
+        </Suspense>
         
         <div className="flex-grow">
           {children}
