@@ -5,8 +5,8 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'authjs.dev',
+        protocol: "https",
+        hostname: "**",
       },
     ],
   },

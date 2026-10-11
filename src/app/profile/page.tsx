@@ -5,11 +5,14 @@ import Link from "next/link";
 import Image from "next/image";
 import { User } from "lucide-react";
 
-const ProfilePage = async () => {
-  const session = await auth.api.getSession({ headers: await headers() });
+export default async function ProfilePage() {
+  const requestHeaders = await headers();
+  const session = await auth.api.getSession({ 
+    headers: requestHeaders 
+  });
   
   if (!session) {
-    redirect("/signin?callbackUrl=/profile");
+    redirect("/signin");
   }
 
   return (
@@ -21,14 +24,14 @@ const ProfilePage = async () => {
       
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 flex flex-col sm:flex-row items-center justify-between mb-6 gap-4">
         <div className="flex items-center gap-5">
-          <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center overflow-hidden border-4 border-white shadow-sm">
+          <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center overflow-hidden border-4 border-white shadow-sm relative">
              {session.user.image ? (
                <Image 
                  src={session.user.image} 
                  alt="Profile" 
-                 width={80} 
-                 height={80} 
-                 className="w-full h-full object-cover" 
+                 fill
+                 sizes="80px"
+                 className="object-cover" 
                />
              ) : (
                <User size={40} className="text-gray-300" />
@@ -60,6 +63,4 @@ const ProfilePage = async () => {
       </div>
     </main>
   );
-};
-
-export default ProfilePage;
+}
