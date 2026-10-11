@@ -21,15 +21,25 @@ const SignInForm = () => {
   const handleEmailSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    const { error } = await signIn.email({ email, password });
-    setLoading(false);
     
-    if (error) {
-      toast.error(error.message || "লগইন ব্যর্থ হয়েছে");
-    } else {
-      toast.success("সফলভাবে লগইন হয়েছে!");
-      router.push(callbackUrl);
-      router.refresh();
+    try {
+      const { error } = await signIn.email({ 
+        email, 
+        password,
+      });
+      
+      if (error) {
+        toast.error(error.message || "লগইন ব্যর্থ হয়েছে। ইমেইল বা পাসওয়ার্ড ভুল।");
+      } else {
+        toast.success("সফলভাবে লগইন হয়েছে!");
+        router.push(callbackUrl);
+        router.refresh();
+      }
+    } catch (err) {
+      console.error("Sign in error:", err);
+      toast.error("সার্ভারে সমস্যা হয়েছে। আবার চেষ্টা করুন।");
+    } finally {
+      setLoading(false);
     }
   };
 

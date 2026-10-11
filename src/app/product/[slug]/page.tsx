@@ -1,6 +1,8 @@
 import { Suspense } from "react";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
+import { headers } from "next/headers";
+import { auth } from "@/lib/auth";
 import { getProductById } from "@/services/product-service";
 import MarketPriceTable from "@/components/products/MarketPriceTable";
 import { toBengaliNum } from "@/utils/bengali";
@@ -62,8 +64,8 @@ const ProductDetailsContent = async ({ params }: { params: Promise<{ slug: strin
             <h1 className="text-2xl md:text-3xl font-bold text-gray-900 leading-tight">{product.name}</h1>
             <p className="text-sm text-gray-500 mt-1">{displayUnit} · {product.category}</p>
             <p className="text-xs text-gray-500 mt-1.5">
-              গতকালের তুলনায় আজ দাম <span className={isUp ? "text-red-600 font-semibold" : isDown ? "text-green-600 font-semibold" : "text-gray-700 font-semibold"}>
-                {isUp ? 'বেড়েছে' : isDown ? 'কমেছে' : 'পরিবর্তন হয়নি'}
+              গতকালের তুলনায় আজ দাম <span className={isUp ? "text-red-600 font-semibold" : isDown ? "text-green-600 font-semibold" : "text-gray-700 font-semibold"}>
+                {isUp ? 'বেড়েছে' : isDown ? 'কমেছে' : 'পরিবর্তন হয়নি'}
               </span> {product.priceChange ? `· ${toBengaliNum(Math.abs(product.priceChange))}%` : ''}
             </p>
           </div>
@@ -125,7 +127,16 @@ const ProductDetailsContent = async ({ params }: { params: Promise<{ slug: strin
   );
 };
 
-const ProductPage = ({ params }: ProductPageProps) => {
+const ProductPage = async ({ params }: ProductPageProps) => {
+  
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    redirect("/signin");
+  }
+
   return (
     <main className="min-h-screen pb-12 bg-[#f4f6f0]">
       <div className="container mx-auto px-4 max-w-7xl pt-6">
