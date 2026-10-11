@@ -1,7 +1,7 @@
 import { getProducts } from "@/services/product-service";
 import { toBengaliNum } from "@/utils/bengali";
 
-export default async function PriceTicker() {
+const PriceTicker = async () => {
   const products = await getProducts();
   
   if (!products || products.length === 0) return null;
@@ -10,7 +10,6 @@ export default async function PriceTicker() {
     <div className="w-full bg-white border-b border-gray-100 overflow-hidden py-2.5 flex whitespace-nowrap text-sm shadow-sm">
       <div className="animate-marquee flex gap-12">
         
-        {/* ইনফিনিট (Infinite) স্ক্রলিং এর জন্য অ্যারেকে ৩ বার ডুপ্লিকেট করা হয়েছে যেন মাঝখানে ফাঁকা না থাকে */}
         {[...products, ...products, ...products].map((p, i) => {
           const isUp = typeof p.priceChange === 'number' && p.priceChange > 0;
           const isDown = typeof p.priceChange === 'number' && p.priceChange < 0;
@@ -36,4 +35,6 @@ export default async function PriceTicker() {
       </div>
     </div>
   );
-}
+};
+
+export default PriceTicker;

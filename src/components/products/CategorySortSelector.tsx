@@ -1,7 +1,11 @@
 "use client";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
-export default function CategorySortSelector({ currentSort }: { currentSort: string }) {
+type CategorySortSelectorProps = {
+  currentSort: string;
+};
+
+const CategorySortSelector = ({ currentSort }: CategorySortSelectorProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -26,4 +30,6 @@ export default function CategorySortSelector({ currentSort }: { currentSort: str
       </select>
     </div>
   );
-}
+};
+
+export default CategorySortSelector;

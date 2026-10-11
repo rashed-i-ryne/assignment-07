@@ -3,7 +3,6 @@ import ProductGrid from "@/components/products/ProductGrid";
 import CategorySortSelector from "@/components/products/CategorySortSelector";
 import { parseBengaliNum, toBengaliNum } from "@/utils/bengali";
 
-// 🚀 ADDED THIS LINE: Tells Next.js to allow this page to wait for the API data safely
 export const instant = false;
 
 type Props = {
@@ -11,7 +10,7 @@ type Props = {
   searchParams: Promise<{ sort?: string }>;
 };
 
-export default async function CategoryPage({ params, searchParams }: Props) {
+const CategoryPage = async ({ params, searchParams }: Props) => {
   const resolvedParams = await params;
   const resolvedSearchParams = await searchParams;
   const slug = resolvedParams.slug;
@@ -22,7 +21,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
     getCategoryById(slug)
   ]);
   
- const sortedProducts = [...products];
+  const sortedProducts = [...products];
 
   if (sort === "asc") {
     sortedProducts.sort((a, b) => parseBengaliNum(String(a.currentPrice || "0")) - parseBengaliNum(String(b.currentPrice || "0")));
@@ -50,4 +49,6 @@ export default async function CategoryPage({ params, searchParams }: Props) {
       <ProductGrid products={sortedProducts} layout="responsive" />
     </main>
   );
-}
+};
+
+export default CategoryPage;

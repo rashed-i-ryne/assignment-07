@@ -1,14 +1,13 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 import { useSession, signOut } from "@/lib/auth-client";
 import { ShoppingCart, User, LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-
-// Import your new LiveDate component
 import LiveDate from "@/components/LiveData";
 
-export default function SiteHeader() {
+const SiteHeader = () => {
   const { data: session, isPending } = useSession();
   const router = useRouter();
 
@@ -27,7 +26,6 @@ export default function SiteHeader() {
           </div>
           <div>
             <h1 className="text-2xl font-bold text-gray-900 leading-tight">বাজার দর</h1>
-            {/* Replaced static date with the LiveDate component */}
             <LiveDate /> 
           </div>
         </Link>
@@ -38,8 +36,18 @@ export default function SiteHeader() {
           ) : session ? (
             <div className="relative group cursor-pointer">
               <div className="flex items-center gap-2 hover:bg-gray-50 p-2 rounded-md border border-transparent hover:border-gray-200 transition-all">
-                 <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
-                    {session.user.image ? <img src={session.user.image} alt="User" /> : <User size={16} />}
+                 <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden relative">
+                    {session.user.image ? (
+                      <Image 
+                        src={session.user.image} 
+                        alt="User" 
+                        fill 
+                        sizes="32px"
+                        className="object-cover" 
+                      />
+                    ) : (
+                      <User size={16} />
+                    )}
                  </div>
                  <span className="text-sm font-medium hidden sm:block">{session.user.name}</span>
               </div>
@@ -68,4 +76,6 @@ export default function SiteHeader() {
       </div>
     </header>
   );
-}
+};
+
+export default SiteHeader;

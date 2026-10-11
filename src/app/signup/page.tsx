@@ -1,6 +1,6 @@
 import SignUpForm from "@/components/auth/SignUpForm";
 
-export default function SignUpPage() {
+const SignUpPage = () => {
   return (
     <div className="min-h-[80vh] flex items-center justify-center py-12 px-4">
       <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 max-w-md w-full">
@@ -10,4 +10,6 @@ export default function SignUpPage() {
       </div>
     </div>
   );
-}
+};
+
+export default SignUpPage;

@@ -1,4 +1,4 @@
-export default function SiteFooter() {
+const SiteFooter = () => {
   return (
     <footer className="bg-white border-t border-gray-200 mt-auto">
       <div className="container mx-auto max-w-7xl px-4 py-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
@@ -7,4 +7,6 @@ export default function SiteFooter() {
       </div>
     </footer>
   );
-}
+};
+
+export default SiteFooter;

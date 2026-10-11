@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { signUp, signIn } from "@/lib/auth-client";
+import { signUp } from "@/lib/auth-client";
 import { useRouter, useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
 import Link from "next/link";
@@ -96,39 +96,6 @@ const SignUpForm = () => {
     }
   };
 
-  const handleSocialSignIn = async (provider: "google" | "github") => {
-    if (loading) return;
-
-    setLoading(true);
-
-    try {
-      const result = await signIn.social({
-        provider,
-        callbackURL: callbackUrl,
-      });
-
-      if (result.error) {
-        console.error(`${provider} sign-in error:`, result.error);
-        toast.error(
-          getErrorMessage(
-            result.error,
-            `${provider} দিয়ে সাইন ইন করা যায়নি।`
-          )
-        );
-      }
-    } catch (error: unknown) {
-      console.error(`${provider} sign-in failed:`, error);
-      toast.error(
-        getErrorMessage(
-          error,
-          "সোশ্যাল সাইন ইন ব্যর্থ হয়েছে। আবার চেষ্টা করুন।"
-        )
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <div suppressHydrationWarning className="bg-white p-6 sm:p-8 rounded-2xl border border-gray-100 shadow-sm max-w-lg mx-auto">
       <form onSubmit={handleEmailSignUp} className="space-y-5">
@@ -147,7 +114,7 @@ const SignUpForm = () => {
             value={name}
             onChange={(e) => setName(e.target.value)}
             className="w-full rounded-lg border border-gray-200 p-3 transition-all focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/20"
-            placeholder="যেমন: রহিম উদ্দিন"
+            placeholder="Your Name"
             disabled={loading}
           />
         </div>
@@ -167,7 +134,7 @@ const SignUpForm = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="w-full rounded-lg border border-gray-200 p-3 transition-all focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/20"
-            placeholder="you@example.com"
+            placeholder="Your Email"
             disabled={loading}
           />
         </div>
@@ -251,10 +218,8 @@ const SignUpForm = () => {
 
       <div className="mt-6 flex flex-col gap-3 sm:flex-row">
         <button
-          onClick={() => handleSocialSignIn("google")}
           type="button"
-          disabled={loading}
-          className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-gray-200 p-2.5 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60"
+          className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-gray-200 p-2.5 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 cursor-default"
         >
           <Image
             src="https://authjs.dev/img/providers/google.svg"
@@ -267,10 +232,8 @@ const SignUpForm = () => {
         </button>
 
         <button
-          onClick={() => handleSocialSignIn("github")}
           type="button"
-          disabled={loading}
-          className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-gray-200 p-2.5 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60"
+          className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-gray-200 p-2.5 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 cursor-default"
         >
           <Image
             src="https://authjs.dev/img/providers/github.svg"

@@ -1,6 +1,6 @@
 import SignInForm from "@/components/auth/SignInForm";
 
-export default function SignInPage() {
+const SignInPage = () => {
   return (
     <div className="min-h-[80vh] flex items-center justify-center py-12 px-4">
       <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 max-w-md w-full">
@@ -10,4 +10,6 @@ export default function SignInPage() {
       </div>
     </div>
   );
-}
+};
+
+export default SignInPage;

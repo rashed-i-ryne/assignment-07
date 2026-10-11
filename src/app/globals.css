@@ -7,7 +7,6 @@
 }
 
 .animate-marquee {
-  /* Increase the seconds (e.g., to 120s or 150s) to make it slower */
   animation: marquee 120s linear infinite !important; 
   display: flex;
   width: max-content;

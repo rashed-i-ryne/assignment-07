@@ -33,10 +33,6 @@ const SignInForm = () => {
     }
   };
 
-  const handleSocialSignIn = async (provider: "google" | "github") => {
-    await signIn.social({ provider, callbackURL: callbackUrl });
-  };
-
   return (
     <div className="bg-white p-6 sm:p-8 rounded-2xl border border-gray-100 shadow-sm max-w-lg mx-auto">
       <form onSubmit={handleEmailSignIn} className="space-y-5">
@@ -96,20 +92,16 @@ const SignInForm = () => {
 
       <div className="mt-6 flex flex-col gap-3 sm:flex-row">
         <button 
-          onClick={() => handleSocialSignIn("google")} 
           type="button" 
-          disabled={loading}
-          className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-gray-200 p-2.5 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60"
+          className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-gray-200 p-2.5 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 cursor-default"
         >
           <Image alt="Google" className="h-5 w-5" height={20} src="https://authjs.dev/img/providers/google.svg" width={20} /> 
           Google দিয়ে চালিয়ে যান
         </button>
 
         <button 
-          onClick={() => handleSocialSignIn("github")} 
           type="button" 
-          disabled={loading}
-          className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-gray-200 p-2.5 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60"
+          className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-gray-200 p-2.5 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 cursor-default"
         >
           <Image alt="GitHub" className="h-5 w-5" height={20} src="https://authjs.dev/img/providers/github.svg" width={20} /> 
           GitHub দিয়ে চালিয়ে যান

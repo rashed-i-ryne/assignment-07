@@ -1,11 +1,14 @@
 'use client';
 import { useState, useEffect } from 'react';
 
-export default function LiveDate({ className = "text-gray-500 text-sm" }: { className?: string }) {
+type LiveDateProps = {
+  className?: string;
+};
+
+const LiveDate = ({ className = "text-gray-500 text-sm" }: LiveDateProps) => {
   const [currentDate, setCurrentDate] = useState("লোড হচ্ছে..."); 
 
   useEffect(() => {
-    // Wrapping the update in a setTimeout makes it asynchronous to satisfy the strict linter
     const timer = setTimeout(() => {
       const today = new Date();
       const options: Intl.DateTimeFormatOptions = { 
@@ -14,7 +17,6 @@ export default function LiveDate({ className = "text-gray-500 text-sm" }: { clas
       setCurrentDate(today.toLocaleDateString('bn-BD', options));
     }, 0);
 
-    // Cleanup the timer
     return () => clearTimeout(timer);
   }, []);
 
@@ -23,4 +25,6 @@ export default function LiveDate({ className = "text-gray-500 text-sm" }: { clas
       {currentDate}
     </span>
   );
-}
+};
+
+export default LiveDate;

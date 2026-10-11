@@ -4,7 +4,7 @@ import { updateUser, useSession } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
-export default function UpdateProfilePage() {
+const UpdateProfilePage = () => {
   const { data: session } = useSession();
   const [name, setName] = useState(session?.user?.name || "");
   const [loading, setLoading] = useState(false);
@@ -49,4 +49,6 @@ export default function UpdateProfilePage() {
       </div>
     </main>
   );
-}
+};
+
+export default UpdateProfilePage;

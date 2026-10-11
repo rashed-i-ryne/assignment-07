@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function NotFound() {
+const NotFound = () => {
   return (
     <div className="min-h-[60vh] flex flex-col items-center justify-center px-4 text-center">
       <h2 className="text-4xl font-bold text-gray-900 mb-4">৪০৪ - পৃষ্ঠা পাওয়া যায়নি</h2>
@@ -12,4 +12,6 @@ export default function NotFound() {
       </Link>
     </div>
   );
-}
+};
+
+export default NotFound;
