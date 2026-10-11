@@ -6,11 +6,15 @@ import { useRouter, useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
 import Link from "next/link";
 import Image from "next/image";
+import { Eye, EyeOff } from "lucide-react";
 
 const SignUpForm = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
@@ -47,6 +51,11 @@ const SignUpForm = () => {
 
     if (password.length < 8) {
       toast.error("পাসওয়ার্ড কমপক্ষে ৮ অক্ষরের হতে হবে");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      toast.error("পাসওয়ার্ড দুটি মিলছে না");
       return;
     }
 
@@ -121,7 +130,7 @@ const SignUpForm = () => {
   };
 
   return (
-    <div suppressHydrationWarning>
+    <div suppressHydrationWarning className="bg-white p-6 sm:p-8 rounded-2xl border border-gray-100 shadow-sm max-w-lg mx-auto">
       <form onSubmit={handleEmailSignUp} className="space-y-5">
         <div>
           <label
@@ -130,7 +139,6 @@ const SignUpForm = () => {
           >
             নাম
           </label>
-
           <input
             id="signup-name"
             type="text"
@@ -139,7 +147,7 @@ const SignUpForm = () => {
             value={name}
             onChange={(e) => setName(e.target.value)}
             className="w-full rounded-lg border border-gray-200 p-3 transition-all focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/20"
-            placeholder="আপনার নাম"
+            placeholder="যেমন: রহিম উদ্দিন"
             disabled={loading}
           />
         </div>
@@ -151,7 +159,6 @@ const SignUpForm = () => {
           >
             ইমেইল
           </label>
-
           <input
             id="signup-email"
             type="email"
@@ -172,36 +179,74 @@ const SignUpForm = () => {
           >
             পাসওয়ার্ড
           </label>
+          <div className="relative">
+            <input
+              id="signup-password"
+              type={showPassword ? "text" : "password"}
+              autoComplete="new-password"
+              minLength={8}
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full rounded-lg border border-gray-200 p-3 pr-12 transition-all focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/20"
+              placeholder="কমপক্ষে ৮ অক্ষর"
+              disabled={loading}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none"
+            >
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
+          </div>
+        </div>
 
-          <input
-            id="signup-password"
-            type="password"
-            autoComplete="new-password"
-            minLength={8}
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full rounded-lg border border-gray-200 p-3 transition-all focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/20"
-            placeholder="কমপক্ষে ৮ অক্ষর"
-            disabled={loading}
-          />
+        <div>
+          <label
+            htmlFor="signup-confirm-password"
+            className="mb-1.5 block text-sm font-semibold text-gray-700"
+          >
+            পাসওয়ার্ড নিশ্চিত করুন
+          </label>
+          <div className="relative">
+            <input
+              id="signup-confirm-password"
+              type={showConfirmPassword ? "text" : "password"}
+              autoComplete="new-password"
+              minLength={8}
+              required
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              className="w-full rounded-lg border border-gray-200 p-3 pr-12 transition-all focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/20"
+              placeholder="আবার লিখুন"
+              disabled={loading}
+            />
+            <button
+              type="button"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none"
+            >
+              {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
+          </div>
         </div>
 
         <button
           disabled={loading}
           type="submit"
-          className="w-full rounded-lg bg-green-600 py-3 font-bold text-white transition-colors hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-70"
+          className="w-full rounded-lg bg-green-700 py-3 font-bold text-white transition-colors hover:bg-green-800 disabled:cursor-not-allowed disabled:opacity-70 shadow-sm mt-2"
         >
-          {loading ? "অপেক্ষা করুন..." : "সাইন আপ"}
+          {loading ? "অপেক্ষা করুন..." : "অ্যাকাউন্ট তৈরি করুন"}
         </button>
       </form>
 
       <div className="mt-8 flex items-center justify-between">
-        <hr className="w-full border-gray-100" />
-        <span className="px-4 text-xs font-medium uppercase tracking-wider text-gray-400">
+        <hr className="w-full border-gray-200" />
+        <span className="px-4 text-sm font-medium text-gray-500">
           অথবা
         </span>
-        <hr className="w-full border-gray-100" />
+        <hr className="w-full border-gray-200" />
       </div>
 
       <div className="mt-6 flex flex-col gap-3 sm:flex-row">
@@ -218,7 +263,7 @@ const SignUpForm = () => {
             height={20}
             className="h-5 w-5"
           />
-          Google
+          Google দিয়ে চালিয়ে যান
         </button>
 
         <button
@@ -234,15 +279,15 @@ const SignUpForm = () => {
             height={20}
             className="h-5 w-5"
           />
-          GitHub
+          GitHub দিয়ে চালিয়ে যান
         </button>
       </div>
 
-      <p className="mt-8 text-center text-sm text-gray-600">
-        ইতিমধ্যে অ্যাকাউন্ট আছে?{" "}
+      <p className="mt-8 text-center text-sm text-gray-600 font-medium">
+        অ্যাকাউন্ট আছে?{" "}
         <Link
           href="/signin"
-          className="font-bold text-green-600 hover:underline"
+          className="font-bold text-green-700 hover:underline"
         >
           সাইন ইন করুন
         </Link>

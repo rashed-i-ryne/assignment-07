@@ -5,13 +5,16 @@ import { ShoppingCart, User, LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
+// Import your new LiveDate component
+import LiveDate from "@/components/LiveData";
+
 export default function SiteHeader() {
   const { data: session, isPending } = useSession();
   const router = useRouter();
 
   const handleSignOut = async () => {
     await signOut();
-    toast.success("সফলভাবে সাইন আউট হয়েছে");
+    toast.success("সফলভাবে সাইন আউট হয়েছে");
     router.push("/");
   };
 
@@ -24,7 +27,8 @@ export default function SiteHeader() {
           </div>
           <div>
             <h1 className="text-2xl font-bold text-gray-900 leading-tight">বাজার দর</h1>
-            <p className="text-xs text-gray-500">মঙ্গলবার, ৬ অক্টোবর, ২০২৬</p> 
+            {/* Replaced static date with the LiveDate component */}
+            <LiveDate /> 
           </div>
         </Link>
 
