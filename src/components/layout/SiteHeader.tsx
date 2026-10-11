@@ -1,4 +1,5 @@
 "use client";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useSession, signOut } from "@/lib/auth-client";
@@ -10,6 +11,19 @@ import LiveDate from "@/components/LiveData";
 const SiteHeader = () => {
   const { data: session, isPending } = useSession();
   const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const handleSignOut = async () => {
     await signOut();
@@ -34,8 +48,12 @@ const SiteHeader = () => {
           {isPending ? (
             <div className="w-24 h-10 bg-gray-100 animate-pulse rounded-md"></div>
           ) : session ? (
-            <div className="relative group cursor-pointer">
-              <div className="flex items-center gap-2 hover:bg-gray-50 p-2 rounded-md border border-transparent hover:border-gray-200 transition-all">
+            <div className="relative" ref={dropdownRef}>
+              <button 
+                onClick={() => setIsOpen(!isOpen)}
+                className="flex items-center gap-2 hover:bg-gray-50 p-2 rounded-md border border-transparent hover:border-gray-200 transition-all cursor-pointer focus:outline-none"
+                aria-expanded={isOpen}
+              >
                  <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden relative">
                     {session.user.image ? (
                       <Image 
@@ -50,21 +68,34 @@ const SiteHeader = () => {
                     )}
                  </div>
                  <span className="text-sm font-medium hidden sm:block">{session.user.name}</span>
-              </div>
-              <div className="absolute right-0 mt-2 w-56 bg-white border border-gray-100 rounded-xl shadow-lg hidden group-hover:block transition-all">
-                <div className="p-4 border-b border-gray-50">
-                  <p className="text-sm font-bold text-gray-900">{session.user.name}</p>
-                  <p className="text-xs text-gray-500 truncate">{session.user.email}</p>
+              </button>
+
+              {isOpen && (
+                <div className="absolute right-0 mt-2 w-56 bg-white border border-gray-100 rounded-xl shadow-lg transition-all z-50">
+                  <div className="p-4 border-b border-gray-50">
+                    <p className="text-sm font-bold text-gray-900">{session.user.name}</p>
+                    <p className="text-xs text-gray-500 truncate">{session.user.email}</p>
+                  </div>
+                  <div className="p-2">
+                    <Link 
+                      href="/profile" 
+                      onClick={() => setIsOpen(false)}
+                      className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-md"
+                    >
+                      <User size={16} /> আমার প্রোফাইল
+                    </Link>
+                    <button 
+                      onClick={() => {
+                        setIsOpen(false);
+                        handleSignOut();
+                      }} 
+                      className="flex items-center w-full gap-2 text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-md mt-1"
+                    >
+                      <LogOut size={16} /> সাইন আউট
+                    </button>
+                  </div>
                 </div>
-                <div className="p-2">
-                  <Link href="/profile" className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-md">
-                    <User size={16} /> আমার প্রোফাইল
-                  </Link>
-                  <button onClick={handleSignOut} className="flex items-center w-full gap-2 text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-md mt-1">
-                    <LogOut size={16} /> সাইন আউট
-                  </button>
-                </div>
-              </div>
+              )}
             </div>
           ) : (
             <div className="flex items-center gap-3">
